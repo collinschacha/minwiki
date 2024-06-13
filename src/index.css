@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
+
+body {
+  background: #052e3d;
+  color: aliceblue;
+  font-family: Teko;
+}
+
+h1 {
+  text-align: center;
+  font-size: 80px;
+  margin-top: 0;
+  
+}
+
+p {
+  font-size: x-large;
+}
