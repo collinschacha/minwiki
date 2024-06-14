@@ -2,16 +2,27 @@ import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 
+interface Result {
+  pageid: number;
+  title: string;
+  extract: string;
+  thumbnail?: {
+    source: string;
+    width: number;
+    height: number;
+  };
+}
+
 function App() {
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Result[]>([]);
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.currentTarget.value);
     setSearch(e.currentTarget.value);
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log("Searching for:", search);
     try {
@@ -19,14 +30,13 @@ function App() {
         `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=${search}&origin=*`
       );
       const data = await response.data.query.pages;
-      // console.log(data);
-      const datas = Object.values(data).map((result) => ({
+      const datas = Object.values(data as Result[]).map((result: Result) => ({
         pageid: result.pageid,
         title: result.title,
         extract: result.extract,
+        thumbnail: result.thumbnail,
       }));
       setResults(datas);
-
       console.log(datas);
       console.log(results);
     } catch (Error) {
