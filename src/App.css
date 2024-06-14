@@ -1,6 +1,10 @@
 .search {
   display: inline-block;
   position: relative;
+  margin: 0 auto;
+  text-align: center;
+  
+
 }
 
 .search input[type="text"] {

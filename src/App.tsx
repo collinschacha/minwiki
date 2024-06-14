@@ -19,8 +19,15 @@ function App() {
         `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=${search}&origin=*`
       );
       const data = await response.data.query.pages;
-      console.log(data);
-      setResults(data);
+      // console.log(data);
+      const datas = Object.values(data).map((result) => ({
+        pageid: result.pageid,
+        title: result.title,
+        extract: result.extract,
+      }));
+      setResults(datas);
+
+      console.log(datas);
       console.log(results);
     } catch (Error) {
       console.log(Error);
@@ -41,6 +48,26 @@ function App() {
           Go
         </button>
       </div>
+      {results.length > 0 ? (
+        results.map((result) => (
+          <div key={result.pageid} style={{ marginBottom: "20px" }}>
+            <h2>{result.title}</h2>
+            {result.thumbnail && (
+              <img
+                src={result.thumbnail.source}
+                alt={result.title}
+                style={{
+                  width: result.thumbnail.width,
+                  height: result.thumbnail.height,
+                }}
+              />
+            )}
+            <p>{result.extract}</p>
+          </div>
+        ))
+      ) : (
+        <div>No results found</div>
+      )}
     </>
   );
 }
